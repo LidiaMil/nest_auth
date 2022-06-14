@@ -34,10 +34,14 @@ export class UsersController {
   @ApiOperation({ summary: 'Create user' })
   @ApiResponse({
     status: 200,
-    description: 'Successfully updated schema.',
+    description: 'Successfully created schema.',
     type: User,
   })
+  @ApiResponse({ status: 400, description: 'Missing or invalid request body.' })
+  @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
+  @ApiResponse({ status: 404, description: 'Schema not found.' })
+  @ApiResponse({ status: 500, description: 'Internal error.' })
   async create(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.usersService.create({
       userId: Math.floor(Math.random() * 10000000),

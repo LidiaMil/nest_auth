@@ -1,5 +1,12 @@
 import { Controller, Request, Post, UseGuards, Get } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { MyHttpException } from 'src/error/error';
+import { ErrorCode } from 'src/error/error.code';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
@@ -18,6 +25,11 @@ export class AuthController {
   @ApiResponse({ status: 404, description: 'Schema not found.' })
   @ApiResponse({ status: 500, description: 'Internal error.' })
   async login(@Request() req) {
+    if (!req.user) {
+      throw new MyHttpException({
+        errorCode: ErrorCode.LoginError.CODE,
+      });
+    }
     return this.authService.login(req.user);
   }
 

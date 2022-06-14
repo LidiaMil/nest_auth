@@ -8,6 +8,7 @@ async function bootstrap() {
     .setTitle('Test nest js')
     .setDescription('The API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .addTag('auth')
     .addTag('users')
     .build();

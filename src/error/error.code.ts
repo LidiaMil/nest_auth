@@ -6,7 +6,7 @@ class CodeAndMsg {
 export class ErrorCode {
   static readonly SUCCESS: CodeAndMsg = { CODE: 0, MESSAGE: 'success' };
   static readonly ERROR: CodeAndMsg = { CODE: 1, MESSAGE: 'fail' };
-  static readonly ParamsError: CodeAndMsg = { CODE: 2, MESSAGE: '参数错误' };
+  static readonly ParamsError: CodeAndMsg = { CODE: 2, MESSAGE: 'new' };
 
   static readonly Forbidden: CodeAndMsg = {
     CODE: 403,

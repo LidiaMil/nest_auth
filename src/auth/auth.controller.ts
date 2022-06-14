@@ -1,4 +1,4 @@
-import { Controller, Request, Post, UseGuards, Get } from '@nestjs/common';
+import { Controller, Request, Post, UseGuards, Get, Body } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -7,7 +7,9 @@ import {
 } from '@nestjs/swagger';
 import { MyHttpException } from 'src/error/error';
 import { ErrorCode } from 'src/error/error.code';
+import { User } from 'src/users/entities/users.entity';
 import { AuthService } from './auth.service';
+import { LoginUserDto } from './dto/auth.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
 
@@ -24,20 +26,24 @@ export class AuthController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 404, description: 'Schema not found.' })
   @ApiResponse({ status: 500, description: 'Internal error.' })
-  async login(@Request() req) {
-    if (!req.user) {
+  async login(@Body() user: LoginUserDto) {
+    if (!user) {
       throw new MyHttpException({
         errorCode: ErrorCode.LoginError.CODE,
       });
     }
-    return this.authService.login(req.user);
+    return this.authService.login(user);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get()
   @ApiBearerAuth()
   @ApiOperation({ summary: 'Get info about me' })
-  @ApiResponse({ status: 200, description: 'Successfully updated schema.' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully updated schema.',
+    type: User,
+  })
   @ApiResponse({ status: 400, description: 'Missing or invalid request body.' })
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @ApiResponse({ status: 403, description: 'Forbidden.' })

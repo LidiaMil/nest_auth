@@ -20,10 +20,8 @@ jobs:
         run: npm install
       - name: build project
         run: npm run build
-      - name: build storybook
-        run: npm run build:storybook
       - name: unit test
-        run: npm run test:unit
+        run: npm run test
       - name: e2e test
         run: npm run test:e2e
       - name: lint code

@@ -1,7 +1,6 @@
 import { Controller, UseGuards, Get, Post, Body } from '@nestjs/common';
 import {
   ApiBearerAuth,
-  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,

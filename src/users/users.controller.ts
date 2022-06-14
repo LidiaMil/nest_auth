@@ -1,11 +1,14 @@
-import { Controller, UseGuards, Get } from '@nestjs/common';
+import { Controller, UseGuards, Get, Post, Body } from '@nestjs/common';
 import {
   ApiBearerAuth,
+  ApiBody,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { CreateUserDto } from './dto/user.dto';
+import { User } from './entities/users.entity';
 import { UsersService } from './users.service';
 
 @ApiBearerAuth()
@@ -25,5 +28,21 @@ export class UsersController {
   @ApiResponse({ status: 500, description: 'Internal error.' })
   getUsers() {
     return this.usersService.findAll();
+  }
+
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Create user' })
+  @ApiResponse({
+    status: 200,
+    description: 'Successfully updated schema.',
+    type: User,
+  })
+  @ApiResponse({ status: 403, description: 'Forbidden.' })
+  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
+    return this.usersService.create({
+      userId: Math.floor(Math.random() * 10000000),
+      ...createUserDto,
+    });
   }
 }

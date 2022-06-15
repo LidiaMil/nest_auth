@@ -1,13 +1,20 @@
-import { Controller, Request, Post, UseGuards, Get, Body } from '@nestjs/common';
+import {
+  Controller,
+  Request,
+  Post,
+  UseGuards,
+  Get,
+  Body,
+} from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { MyHttpException } from 'src/error/error';
-import { ErrorCode } from 'src/error/error.code';
-import { User } from 'src/users/entities/users.entity';
+import { MyHttpException } from '../error/error';
+import { ErrorCode } from '../error/error.code';
+import { User } from '../users/entities/users.entity';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/auth.dto';
 import { JwtAuthGuard } from './jwt-auth.guard';

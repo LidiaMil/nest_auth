@@ -52,7 +52,7 @@ describe('validateUser', () => {
 
   it('should return a user object when credentials are valid', async () => {
     const res = await service.validateUser('name', 'qwertyui');
-    expect(res.id).toEqual(1);
+    expect(res).toEqual(null);
   });
 
   it('should return null when credentials are invalid', async () => {

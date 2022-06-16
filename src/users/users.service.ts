@@ -1,27 +1,29 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './entities/users.entity';
+import { PrismaService } from 'src/prisma/prisma.service';
+// import { User } from './entities/users.entity';
+import { User, Prisma } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [
-    {
-      userId: 1,
-      username: 'name',
-      password: 'qwertyui',
-    },
-  ];
+  constructor(private prisma: PrismaService) {}
 
-  async create(user: User): Promise<User> {
-    this.users.push(user);
-    return user;
+  async create(data: Prisma.UserCreateInput): Promise<User> {
+    return await this.prisma.user.create({ data });
   }
 
-  async findOne(username: string): Promise<User | undefined> {
-    return this.users.find((user) => user.username === username);
+  async findOne(username: Prisma.UserWhereUniqueInput): Promise<User | null> {
+    return await this.prisma.user.findUnique({
+      where: username,
+    });
+    // return this.users.find((user) => user.username === username);
   }
 
-  async findAll(): Promise<User[] | undefined> {
-    console.log(this.users);
-    return this.users;
+  async findAll(params: {
+    orderBy?: Prisma.UserOrderByWithRelationInput;
+  }): Promise<User[] | null> {
+    const { orderBy } = params;
+    return await this.prisma.user.findMany({
+      orderBy,
+    });
   }
 }

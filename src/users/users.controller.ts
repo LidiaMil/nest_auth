@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get, Post, Body } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -9,6 +9,7 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateUserDto } from './dto/user.dto';
 import { User } from './entities/users.entity';
 import { UsersService } from './users.service';
+import { User as UserModel } from '@prisma/client';
 
 @ApiBearerAuth()
 @ApiTags('users')
@@ -25,8 +26,8 @@ export class UsersController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 404, description: 'Schema not found.' })
   @ApiResponse({ status: 500, description: 'Internal error.' })
-  getUsers() {
-    return this.usersService.findAll();
+  async getUsers() {
+    return this.usersService.findAll({});
   }
 
   @Post()
@@ -42,10 +43,10 @@ export class UsersController {
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   @ApiResponse({ status: 404, description: 'Schema not found.' })
   @ApiResponse({ status: 500, description: 'Internal error.' })
-  async create(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.create({
-      userId: Math.floor(Math.random() * 10000000),
-      ...createUserDto,
-    });
+  async create(
+    @Body() createUserDto: { id?: string; username: string; password: string },
+  ): Promise<null> {
+    await this.usersService.create(createUserDto);
+    return null;
   }
 }

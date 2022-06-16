@@ -52,7 +52,7 @@ describe('validateUser', () => {
 
   it('should return a user object when credentials are valid', async () => {
     const res = await service.validateUser('name', 'qwertyui');
-    expect(res.userId).toEqual(1);
+    expect(res.id).toEqual(1);
   });
 
   it('should return null when credentials are invalid', async () => {
@@ -84,7 +84,7 @@ describe('validateLogin', () => {
     const res = await service.login({
       username: 'name',
       password: 'qwertyui',
-      userId: '1',
+      id: '1',
     });
     expect(res.access_token).toBeDefined();
   });

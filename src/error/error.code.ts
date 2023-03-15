@@ -12,6 +12,7 @@ export class ErrorCode {
     CODE: 403,
     MESSAGE: 'Forbidden.',
   };
+  
   static readonly NotFound: CodeAndMsg = {
     CODE: 404,
     MESSAGE: 'Schema not found.',
@@ -21,6 +22,7 @@ export class ErrorCode {
     CODE: 1000,
     MESSAGE: 'Input error.',
   };
+  
   static readonly InActive: CodeAndMsg = {
     CODE: 1002,
     MESSAGE: 'The user is signed in on another device.',
